@@ -12,6 +12,8 @@ public class Player : MonoBehaviour
     [SerializeField] private GameObject spawnPoint2;
     private float temporizador = 0.5f;
     private float vidas = 100;
+    public GameObject finJuego;
+    public GameObject menuPause;
     // Start is called before the first frame update
     void Start()
     {
@@ -24,8 +26,18 @@ public class Player : MonoBehaviour
         Movimiento();
         DelimitarMovimiento();
         Disparar();
+        if(Input.GetKeyDown(KeyCode.Escape)) {
 
-        
+            if(Time.timeScale == 0f)
+            {
+                Resume();
+            }
+            else
+            {
+                PauseGame();
+            }
+
+        }
     }
     void Movimiento()
     {
@@ -58,8 +70,25 @@ public class Player : MonoBehaviour
             Destroy(elOtro.gameObject);
             if(vidas<=0)
             {
+                KillPlayer();
                 Destroy(this.gameObject);
             }
         }
+    }
+    
+    private void KillPlayer()
+    {
+        finJuego.SetActive(true);
+    }
+    public void PauseGame()
+    {
+        Time.timeScale = 0f;
+        menuPause.SetActive(true);
+    }
+    public void Resume()
+    {
+        Time.timeScale = 1f;
+        menuPause.SetActive(false);
+
     }
 }
